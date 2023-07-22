@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+  <PropertyGroup>
+    <Title>ArrayPool Leases</Title>
+    <Description>Provides IDisposable leases for Microsoft's ArrayPool class from the System.Buffers package.</Description>
+    <PackageTags>Buffer ArrayPool IDisposable Rent Lease</PackageTags>
+  </PropertyGroup>
+
+</Project>

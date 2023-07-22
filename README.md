@@ -1,10 +1,17 @@
-﻿# NCode.ArrayLeases
+﻿[![ci](https://github.com/NCodeGroup/ArrayLeases/actions/workflows/main.yml/badge.svg)](https://github.com/NCodeGroup/ArrayLeases/actions)
+
+# NCode.ArrayLeases
+
 > PM> Install-Package NCode.ArrayLeases
 
-This library provides provides `IDisposable` leases for Microsoft's new [ArrayPool] class from the [System.Buffers] package. These `IDisposable` implementations will automatically return the array back to the `ArrayPool` when the lease is disposed.
+This library provides provides `IDisposable` leases for Microsoft's new [ArrayPool] class from the [System.Buffers]
+package. These `IDisposable` implementations will automatically return the array back to the `ArrayPool` when the lease
+is disposed.
 
 ## Usage
+
 ### Before
+
 ```csharp
 public static void Main(string[] args)
 {
@@ -20,7 +27,9 @@ public static void Main(string[] args)
   }
 }
 ```
+
 ### After
+
 ```csharp
 public static void Main(string[] args)
 {
@@ -33,7 +42,9 @@ public static void Main(string[] args)
 ```
 
 ## IArrayLease
-Represents a lease by encapsulating it's array and item count. The item `Count` property is assignable to any value less than or equal to the array length.
+
+Represents a lease by encapsulating it's array and item count. The item `Count` property is assignable to any value less
+than or equal to the array length.
 
 ```csharp
 public interface IArrayLease<out T> : IDisposable
@@ -44,10 +55,16 @@ public interface IArrayLease<out T> : IDisposable
 ```
 
 ### Count Property
-The impetus for allowing to assign the item `Count` is because arrays returned from the pool are not the exact length requested. The `Count` property is initially set to the requested length but can be assigned to any value less than or equal to the array length so that consumers may know how much data to consume. See the [ArrayPool] API for additional details about buffer sizes.
+
+The impetus for allowing to assign the item `Count` is because arrays returned from the pool are not the exact length
+requested. The `Count` property is initially set to the requested length but can be assigned to any value less than or
+equal to the array length so that consumers may know how much data to consume. See the [ArrayPool] API for additional
+details about buffer sizes.
 
 ## ArrayLease
-Base class for `IArrayLease<T>` and provides a default implementation for it's properties. Derived classes must override the following method to relinquish the lease. The default implementation for `Return` does nothing.
+
+Base class for `IArrayLease<T>` and provides a default implementation for it's properties. Derived classes must override
+the following method to relinquish the lease. The default implementation for `Return` does nothing.
 
 ```csharp
 public class ArrayLease<T>
@@ -65,7 +82,9 @@ public class ArrayLease<T>
 ```
 
 ## ArrayPoolLease
-Contains an implementation of `ArrayLease<T>` that will `Rent` an array from `ArrayPool<T>` and then `Return` the array after the lease is disposed.
+
+Contains an implementation of `ArrayLease<T>` that will `Rent` an array from `ArrayPool<T>` and then `Return` the array
+after the lease is disposed.
 
 ```csharp
 public class ArrayPoolLease<T> : ArrayLease<T>
@@ -91,6 +110,7 @@ public class ArrayPoolLease<T> : ArrayLease<T>
 ```
 
 ## Extension Methods
+
 Various extension methods exist to create leases for multiple use-cases.
 
 ```csharp
@@ -109,11 +129,16 @@ public static ArraySegment<T> Segment<T>(this IArrayLease<T> lease, int offset, 
 ```
 
 ## Release Notes
+
 * v1.0.0 - Initial Release
+* v1.0.1 - Refresh the build
 
 ## Feedback
+
 Please provide any feedback, comments, or issues to this GitHub project [here][issues].
 
 [issues]: https://github.com/NCodeGroup/NCode.ArrayLeases/issues
+
 [ArrayPool]: https://github.com/dotnet/corefx/issues/4547
+
 [System.Buffers]: https://www.nuget.org/packages/System.Buffers
