@@ -1,4 +1,24 @@
-﻿[![ci](https://github.com/NCodeGroup/ArrayLeases/actions/workflows/main.yml/badge.svg)](https://github.com/NCodeGroup/ArrayLeases/actions)
+﻿# Deprecated
+
+> **This library is retired. Use `MemoryPool<T>`, which does the same job and is built in.**
+>
+> `MemoryPool<T>.Shared.Rent(size)` returns an `IMemoryOwner<T>`: an `IDisposable` lease that returns its buffer to the pool when disposed, which is what `IArrayLease<T>` and `pool.Lease(size)` were for.
+>
+> ```csharp
+> using (var owner = MemoryPool<byte>.Shared.Rent(4096))
+> {
+>     Memory<byte> buffer = owner.Memory.Slice(0, 4096);
+>     // use the buffer...
+> }
+> ```
+>
+> - The rented memory can be longer than you asked for, as an `ArrayPool<T>` array can. Slice it to the length you need; that is what `IArrayLease<T>.Count` recorded.
+> - If you need the array itself, call `MemoryMarshal.TryGetArray(owner.Memory, out var segment)`, or rent from `ArrayPool<T>.Shared` and return the array in a `finally`.
+> - `MemoryPool<T>` is in .NET Core 2.1 and later, .NET Standard 2.1, and the `System.Memory` package for .NET Framework 4.6.1 and .NET Standard 2.0.
+>
+> The NuGet package `NCode.ArrayLeases` is deprecated and this repository is archived. The code stays available as it is.
+
+[![ci](https://github.com/NCodeGroup/ArrayLeases/actions/workflows/main.yml/badge.svg)](https://github.com/NCodeGroup/ArrayLeases/actions)
 
 # NCode.ArrayLeases
 
